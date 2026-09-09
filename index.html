@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <title>Realistic Snake Game - Speed Controlled</title>
+  <title>Snake Game</title>
   <style>
     * {
       box-sizing: border-box;
@@ -37,18 +37,18 @@
       flex-direction: column;
       align-items: center;
       justify-content: space-between;
-      padding: 10px;
+      padding: 24px 16px 12px 16px; /* 상단 패딩을 늘려 꼭대기 여백 확보 */
     }
 
-    /* 게임 상단 타이틀 제목 추가 */
+    /* 게임 상단 타이틀 스타일 및 여백 조정 */
     .game-title {
-      font-size: 22px;
+      font-size: 24px;
       font-weight: bold;
       color: #2ECC71;
       text-align: center;
-      margin-bottom: 6px;
+      margin-top: 8px;      /* 상단 여백 추가 */
+      margin-bottom: 18px;  /* 스코어보드와의 사이 여백 추가 */
       letter-spacing: 1px;
-      text-shadow: 0 2px 4px rgba(0,0,0,0.5);
     }
 
     .header {
@@ -56,9 +56,10 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 8px 14px;
+      padding: 10px 16px;
       background: rgba(255, 255, 255, 0.08);
       border-radius: 10px;
+      margin-bottom: 12px;  /* 난이도 선택 버튼과의 사이 여백 추가 */
     }
 
     .score-board {
@@ -72,7 +73,6 @@
       display: flex;
       justify-content: space-between;
       gap: 6px;
-      margin-top: 6px;
     }
 
     .speed-btn {
@@ -101,7 +101,7 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      margin: 8px 0;
+      margin: 12px 0;
     }
 
     canvas {
@@ -114,7 +114,6 @@
       aspect-ratio: 1 / 1;
     }
 
-    /* 방향 조작 컨트롤러 */
     .controls {
       width: 100%;
       display: grid;
@@ -155,7 +154,6 @@
 
   <div class="game-container">
     <div style="width: 100%;">
-      <!-- 상단 제목 추가 -->
       <div class="game-title">🐍 스네이크 게임</div>
 
       <div class="header">
@@ -163,7 +161,6 @@
         <div class="score-board">최고: <span id="high-score">0</span></div>
       </div>
 
-      <!-- 난이도 선택 버튼 영역 -->
       <div class="speed-selector">
         <div class="speed-btn active" id="spd-1">1단계 (초급)</div>
         <div class="speed-btn" id="spd-2">2단계 (중급)</div>
@@ -175,7 +172,6 @@
       <canvas id="snakeCanvas" width="400" height="400"></canvas>
     </div>
 
-    <!-- 터치 및 마우스 조작 컨트롤러 -->
     <div class="controls">
       <div class="btn btn-up" id="btn-up">▲</div>
       <div class="btn btn-left" id="btn-left">◀</div>
