@@ -40,6 +40,17 @@
       padding: 10px;
     }
 
+    /* 게임 상단 타이틀 제목 추가 */
+    .game-title {
+      font-size: 22px;
+      font-weight: bold;
+      color: #2ECC71;
+      text-align: center;
+      margin-bottom: 6px;
+      letter-spacing: 1px;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+    }
+
     .header {
       width: 100%;
       display: flex;
@@ -143,7 +154,10 @@
 <body>
 
   <div class="game-container">
-    <div>
+    <div style="width: 100%;">
+      <!-- 상단 제목 추가 -->
+      <div class="game-title">🐍 스네이크 게임</div>
+
       <div class="header">
         <div class="score-board">점수: <span id="score">0</span></div>
         <div class="score-board">최고: <span id="high-score">0</span></div>
