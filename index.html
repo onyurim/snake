@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>클래식 스네이크 게임</title>
+    <title>클래식 스네이크 게임 (단계별)</title>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; user-select: none; -webkit-user-select: none; }
         body {
@@ -18,6 +18,31 @@
             padding: 10px;
         }
         h1 { font-size: 24px; margin-bottom: 10px; color: #4ade80; text-shadow: 0 0 10px rgba(74, 222, 128, 0.4); }
+        
+        /* 난이도 선택 버튼 스타일 */
+        .level-container {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+        .level-btn {
+            padding: 6px 14px;
+            font-size: 14px;
+            font-weight: bold;
+            border: 2px solid #334155;
+            background-color: #1e293b;
+            color: #94a3b8;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .level-btn.active {
+            background-color: #22c55e;
+            color: #ffffff;
+            border-color: #4ade80;
+            box-shadow: 0 0 10px rgba(34, 197, 94, 0.4);
+        }
+
         #score-board {
             font-size: 18px; font-weight: bold; margin-bottom: 15px;
             background: #1e293b; padding: 8px 20px; border-radius: 20px; border: 1px solid #334155;
@@ -41,9 +66,10 @@
         #btn-left { grid-column: 1; grid-row: 2; }
         #btn-down { grid-column: 2; grid-row: 2; }
         #btn-right { grid-column: 3; grid-row: 2; }
+        
         #game-over {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(15, 23, 42, 0.85); display: flex; flex-direction: column;
+            background: rgba(15, 23, 42, 0.88); display: flex; flex-direction: column;
             align-items: center; justify-content: center; border-radius: 12px; display: none;
         }
         #game-over h2 { font-size: 28px; color: #ef4444; margin-bottom: 10px; }
@@ -56,6 +82,14 @@
 <body>
 
     <h1>🐍 스네이크 게임</h1>
+
+    <!-- 1단계, 2단계, 3단계 난이도 선택 -->
+    <div class="level-container">
+        <button class="level-btn active" onclick="setLevel(10, this)">1단계 (초보)</button>
+        <button class="level-btn" onclick="setLevel(6, this)">2단계 (중급)</button>
+        <button class="level-btn" onclick="setLevel(3, this)">3단계 (고급)</button>
+    </div>
+
     <div id="score-board">점수: <span id="score">0</span></div>
 
     <div id="game-container">
@@ -67,6 +101,7 @@
         </div>
     </div>
 
+    <!-- 터치/모바일용 방향키 -->
     <div class="controls">
         <button class="btn" id="btn-up" onclick="changeDir('UP')">▲</button>
         <button class="btn" id="btn-left" onclick="changeDir('LEFT')">◀</button>
@@ -80,18 +115,26 @@
         const grid = 16;
         let count = 0;
         let score = 0;
+        let speed = 10; // 기본 속도 (1단계)
 
         let snake = { x: 160, y: 160, dx: grid, dy: 0, cells: [], maxCells: 4 };
         let apple = { x: 80, y: 80 };
 
         function getRandomInt(min, max) { return Math.floor(Math.random() * (max - min)) + min; }
 
+        function setLevel(selectedSpeed, btn) {
+            speed = selectedSpeed;
+            document.querySelectorAll('.level-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            resetGame();
+        }
+
         function gameLoop() {
             requestAnimationFrame(gameLoop);
-            if (++count < 6) return;
+            if (++count < speed) return;
             count = 0;
 
-            ctx.clearRect(0,0,canvas.width,canvas.height);
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
             snake.x += snake.dx;
             snake.y += snake.dy;
 
@@ -102,9 +145,11 @@
             snake.cells.unshift({x: snake.x, y: snake.y});
             if (snake.cells.length > snake.maxCells) snake.cells.pop();
 
+            // 사과
             ctx.fillStyle = '#ef4444';
             ctx.fillRect(apple.x, apple.y, grid-1, grid-1);
 
+            // 뱀
             ctx.fillStyle = '#22c55e';
             snake.cells.forEach(function(cell, index) {
                 ctx.fillRect(cell.x, cell.y, grid-1, grid-1);
