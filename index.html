@@ -186,11 +186,10 @@
     let score = 0;
     let highScore = 0;
     let gameLoop = null;
-    let gameState = 'START'; // 'START', 'PLAYING', 'GAMEOVER'
+    let gameState = 'START';
     let changingDirection = false;
     let tongueTick = 0;
 
-    // 속도 설정 (ms) - 1단계: 220ms (느림), 2단계: 160ms (보통), 3단계: 100ms (빠름)
     let currentSpeed = 220;
 
     function initGame() {
@@ -266,10 +265,10 @@
       ctx.translate(headX, headY);
 
       let angle = 0;
-      if (dx === gridSize) angle = 0;                  // 오른쪽
-      if (dx === -gridSize) angle = Math.PI;           // 왼쪽
-      if (dy === -gridSize) angle = -Math.PI / 2;      // 위쪽
-      if (dy === gridSize) angle = Math.PI / 2;        // 아래쪽
+      if (dx === gridSize) angle = 0;
+      if (dx === -gridSize) angle = Math.PI;
+      if (dy === -gridSize) angle = -Math.PI / 2;
+      if (dy === gridSize) angle = Math.PI / 2;
       ctx.rotate(angle);
 
       if (tongueTick % 4 < 2) {
@@ -289,7 +288,6 @@
       ctx.ellipse(0, 0, gridSize / 2 + 2, gridSize / 2 - 1, 0, 0, Math.PI * 2);
       ctx.fill();
 
-      // 눈 표현
       ctx.fillStyle = '#FFFFFF';
       ctx.beginPath();
       ctx.arc(3, -5, 4, 0, Math.PI * 2);
@@ -412,13 +410,11 @@
       if (dir === 'DOWN' && !goingUp) { dx = 0; dy = gridSize; changingDirection = true; }
     }
 
-    // 속도 설정 이벤트 제어
     function setSpeed(speed, btnId) {
       currentSpeed = speed;
       document.querySelectorAll('.speed-btn').forEach(btn => btn.classList.remove('active'));
       document.getElementById(btnId).classList.add('active');
 
-      // 게임 진행 중일 경우 속도 즉시 반영
       if (gameState === 'PLAYING') {
         clearInterval(gameLoop);
         gameLoop = setInterval(() => {
@@ -436,11 +432,10 @@
       }, { passive: false });
     };
 
-    bindSpeedBtn('spd-1', 220); // 1단계 초급
-    bindSpeedBtn('spd-2', 160); // 2단계 중급
-    bindSpeedBtn('spd-3', 100); // 3단계 고급
+    bindSpeedBtn('spd-1', 220);
+    bindSpeedBtn('spd-2', 160);
+    bindSpeedBtn('spd-3', 100);
 
-    // [통합 포인터 이벤트] 버튼 및 캔버스 터치/클릭 제어
     const bindBtn = (id, dir) => {
       const el = document.getElementById(id);
       el.addEventListener('pointerdown', (e) => {
@@ -461,7 +456,6 @@
       }
     }, { passive: false });
 
-    // PC 키보드 연동
     window.addEventListener('keydown', (e) => {
       if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'Space'].includes(e.code)) {
         e.preventDefault();
